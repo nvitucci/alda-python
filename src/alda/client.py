@@ -59,7 +59,8 @@ class Client:
             - instruments - the list of available instruments
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "instruments"})
+        return self.client.read()
 
     def load(self, code: str) -> dict:
         """
@@ -83,7 +84,8 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "new-score"})
+        return self.client.read()
 
     def replay(self, start: str = None, end: str = None) -> dict:
         """
@@ -105,7 +107,8 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "replay"})
+        return self.client.read()
 
     def score_ast(self) -> dict:
         """
@@ -119,7 +122,8 @@ class Client:
             - ast - the parsed AST of the current score, as a JSON string
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "score-ast"})
+        return self.client.read()
 
     def score_data(self) -> dict:
         """
@@ -133,7 +137,8 @@ class Client:
             - data - a data representation of the current score
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "score-data"})
+        return self.client.read()
 
     def score_events(self) -> dict:
         """
@@ -147,7 +152,8 @@ class Client:
             - events - the parsed events output of the current score
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "score-events"})
+        return self.client.read()
 
     def score_text(self) -> dict:
         """
@@ -159,7 +165,8 @@ class Client:
             - text - the Alda code of the current score
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "score-text"})
+        return self.client.read()
 
     def stop(self) -> dict:
         """
@@ -170,4 +177,5 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "stop"})
+        return self.client.read()

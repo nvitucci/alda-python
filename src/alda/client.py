@@ -1,4 +1,4 @@
-import nrepl
+from .nrepl import NREPLClient
 
 
 class Client:
@@ -14,9 +14,7 @@ class Client:
         :param port: the Alda REPL server port
         :type port: int
         """
-        # TODO: add logging
-        conn_string = f"nrepl://{host}:{port}"
-        self.client = nrepl.connect(conn_string)
+        self.client = NREPLClient(host, port)
 
     def play(self, code: str) -> dict:
         """
@@ -47,7 +45,8 @@ class Client:
             - binary-data - exported MIDI binary data for the current score
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "export"})
+        return self.client.read()
 
     def instruments(self) -> dict:
         """

@@ -64,7 +64,8 @@ class Client:
 
     def load(self, code: str) -> dict:
         """
-        Parses the provided input as a new score and loads the score into the REPL server.
+        Parses the provided input as a new score and loads the score
+        into the REPL server.
 
         :param code: a string of Alda code
         :type code: str
@@ -89,8 +90,7 @@ class Client:
 
     def replay(self, start: str = None, end: str = None) -> dict:
         """
-        Parses the provided input as a new score and loads the score
-        into the REPL server.
+        Plays back the score currently loaded into the REPL server.
         Note: in the server API, the parameters are called "from" and
         "to" respectively.
 
@@ -107,7 +107,13 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        self.client.write({"op": "replay"})
+        op = {"op": "replay"}
+        if start is not None:
+            op["from"] = start
+        if end is not None:
+            op["to"] = end
+
+        self.client.write(op)
         return self.client.read()
 
     def score_ast(self) -> dict:

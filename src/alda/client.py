@@ -74,7 +74,8 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "load", "code": code})
+        return self.client.read()
 
     def new_score(self) -> dict:
         """

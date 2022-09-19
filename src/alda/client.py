@@ -1,4 +1,4 @@
-import nrepl
+from .nrepl import NREPLClient
 
 
 class Client:
@@ -14,9 +14,7 @@ class Client:
         :param port: the Alda REPL server port
         :type port: int
         """
-        # TODO: add logging
-        conn_string = f"nrepl://{host}:{port}"
-        self.client = nrepl.connect(conn_string)
+        self.client = NREPLClient(host, port)
 
     def play(self, code: str) -> dict:
         """
@@ -36,6 +34,19 @@ class Client:
         self.client.write({"op": "eval-and-play", "code": code})
         return self.client.read()
 
+    def describe(self) -> dict:
+        """
+        Returns information on the Alda REPL server.
+
+        :return:
+            - ops - the operations available on the Alda REPL server
+            - problems - if there were any
+            - versions - Alda versions
+        :rtype: dict
+        """
+        self.client.write({"op": "describe"})
+        return self.client.read()
+
     def export(self) -> dict:
         """
         Exports the current score to MIDI and returns the binary data
@@ -47,7 +58,8 @@ class Client:
             - binary-data - exported MIDI binary data for the current score
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "export"})
+        return self.client.read()
 
     def instruments(self) -> dict:
         """
@@ -64,7 +76,8 @@ class Client:
 
     def load(self, code: str) -> dict:
         """
-        Parses the provided input as a new score and loads the score into the REPL server.
+        Parses the provided input as a new score and loads the score
+        into the REPL server.
 
         :param code: a string of Alda code
         :type code: str
@@ -73,7 +86,8 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        raise NotImplementedError
+        self.client.write({"op": "load", "code": code})
+        return self.client.read()
 
     def new_score(self) -> dict:
         """
@@ -89,8 +103,7 @@ class Client:
 
     def replay(self, start: str = None, end: str = None) -> dict:
         """
-        Parses the provided input as a new score and loads the score
-        into the REPL server.
+        Plays back the score currently loaded into the REPL server.
         Note: in the server API, the parameters are called "from" and
         "to" respectively.
 
@@ -107,7 +120,13 @@ class Client:
             - problems - if there were any
         :rtype: dict
         """
-        self.client.write({"op": "replay"})
+        op = {"op": "replay"}
+        if start is not None:
+            op["from"] = start
+        if end is not None:
+            op["to"] = end
+
+        self.client.write(op)
         return self.client.read()
 
     def score_ast(self) -> dict:

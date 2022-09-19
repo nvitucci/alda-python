@@ -34,6 +34,19 @@ class Client:
         self.client.write({"op": "eval-and-play", "code": code})
         return self.client.read()
 
+    def describe(self) -> dict:
+        """
+        Returns information on the Alda REPL server.
+
+        :return:
+            - ops - the operations available on the Alda REPL server
+            - problems - if there were any
+            - versions - Alda versions
+        :rtype: dict
+        """
+        self.client.write({"op": "describe"})
+        return self.client.read()
+
     def export(self) -> dict:
         """
         Exports the current score to MIDI and returns the binary data

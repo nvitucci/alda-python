@@ -1,4 +1,4 @@
-from .nrepl import CustomNREPLClient
+from .nrepl import NREPLClient
 
 
 class Client:
@@ -14,7 +14,7 @@ class Client:
         :param port: the Alda REPL server port
         :type port: int
         """
-        self.client = CustomNREPLClient(host, port)
+        self.client = NREPLClient(host, port)
 
     def play(self, code: str) -> dict:
         """

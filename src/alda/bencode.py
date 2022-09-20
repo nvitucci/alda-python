@@ -17,17 +17,15 @@ class Bencode:
         data = self.f.read(1)
 
         if data == INT_START_DELIMITER:
-            data = self.read_int()
+            return self.read_int()
         elif data == LIST_START_DELIMITER:
-            data = self.read_list()
+            return self.read_list()
         elif data == DICT_START_DELIMITER:
-            data = self.read_dict()
+            return self.read_dict()
         elif data == END_DELIMITER:
             return None
         else:
-            data = self.read_string(data)
-
-        return data
+            return self.read_string(data)
 
     def read_string_length(self, initial):
         return self.read_int(initial, STRING_LEN_DELIMITER)

@@ -25,7 +25,11 @@ class Bencode:
         elif data == END_DELIMITER:
             return None
         else:
-            return self.read_string(data)
+            data = self.read_string(data)
+            try:
+                return data.decode()
+            except UnicodeDecodeError:
+                return data
 
     def read_string_length(self, initial):
         return self.read_int(initial, STRING_LEN_DELIMITER)

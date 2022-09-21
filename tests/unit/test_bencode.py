@@ -7,7 +7,10 @@ from alda.bencode import Bencode
 VALUES = [
     ("0:", ""),
     ("4:spam", "spam"),
+    ("1024:" + ("a" * 1024), "a" * 1024),
+    ("10240:" + ("a" * 10240), "a" * 10240),
     ("i3e", 3),
+    ("i-3e", -3),
     ("le", []),
     ("l4:spam4:eggse", ["spam", "eggs"]),
     ("l4:spam4:eggsd3:cow3:mooee", ["spam", "eggs", {"cow": "moo"}]),

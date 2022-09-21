@@ -41,9 +41,8 @@ class Bencode:
         if initial is not None:
             data += initial
 
-        while (r := self.f.read(1)).isdigit():
+        while (r := self.f.read(1)) != delimiter:
             data += r
-        assert r == delimiter, f"Wrong delimiter: {r}, should be {delimiter}"
 
         return int(data)
 
@@ -54,7 +53,6 @@ class Bencode:
         while len(data) < length:
             data += self.f.read(length - len(data))
 
-        assert len(data) == length, "Wrong string length"
         return data
 
     def read_list(self):

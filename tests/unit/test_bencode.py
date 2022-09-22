@@ -15,8 +15,10 @@ VALUES = [
     ("l4:spam4:eggse", ["spam", "eggs"]),
     ("l4:spam4:eggsd3:cow3:mooee", ["spam", "eggs", {"cow": "moo"}]),
     ("d3:cow3:moo4:spam4:eggse", {"cow": "moo", "spam": "eggs"}),
-    ("d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee",
-        {"publisher": "bob", "publisher-webpage": "www.example.com", "publisher.location": "home"}),
+    (
+        "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee",
+        {"publisher": "bob", "publisher-webpage": "www.example.com", "publisher.location": "home"},
+    ),
     ("d3:cow3:moo4:spaml1:a1:bee", {"cow": "moo", "spam": ["a", "b"]}),
     ("d3:cow3:moo4:spamd1:a1:bee", {"cow": "moo", "spam": {"a": "b"}}),
 ]

@@ -1,4 +1,4 @@
-from typing import Dict, Any, List, Union, Optional
+from typing import Any, Dict, Optional
 
 from .nrepl import NREPLClient
 

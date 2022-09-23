@@ -1,6 +1,5 @@
 import socket
-
-from typing import Any, BinaryIO, Dict, List, Union, Optional
+from typing import Any, BinaryIO, Dict
 
 from .bencode import Bencode
 

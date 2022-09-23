@@ -10,18 +10,18 @@ class TestReplOps:
     c = Client()
 
     @pytest.fixture(autouse=True)
-    def reset_score(self):
+    def reset_score(self) -> None:
         self.c.new_score()
 
         # Slow down to allow the server to respond
         time.sleep(5)
 
-    def test_play(self):
+    def test_play(self) -> None:
         code = "piano: o3 c2 d2 e2"
 
         assert self.c.play(code) == {"status": ["done"]}
 
-    def test_play_malformed(self):
+    def test_play_malformed(self) -> None:
         code = "piano: o3 c2 d2 y"
 
         assert self.c.play(code) == {
@@ -29,7 +29,7 @@ class TestReplOps:
             "status": ["done", "error"],
         }
 
-    def test_describe(self):
+    def test_describe(self) -> None:
         assert self.c.describe() == {
             "ops": {
                 "clone": {},
@@ -51,14 +51,14 @@ class TestReplOps:
             "versions": {"alda": {"version-string": "2.2.3"}},
         }
 
-    def test_export_empty(self):
+    def test_export_empty(self) -> None:
         assert self.c.export() == {
             "binary-data": b"MThd\x00\x00\x00\x06\x00\x00\x00\x01\x00\x80MTrk\x00\x00"
             b"\x00\x0b\x00\xffQ\x03\x07\xa1 \x00\xff/\x00",
             "status": ["done"],
         }
 
-    def test_export(self):
+    def test_export(self) -> None:
         code = "piano: o3 c2 d2 e2"
         self.c.load(code)
 
@@ -70,7 +70,7 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_instruments(self):
+    def test_instruments(self) -> None:
         res = self.c.instruments()
 
         assert set(res.keys()) == {"instruments", "status"}
@@ -79,29 +79,29 @@ class TestReplOps:
         assert all(el.startswith("midi-") for el in res["instruments"])
         assert res["instruments"][-1] == "midi-percussion"
 
-    def test_load_empty(self):
+    def test_load_empty(self) -> None:
         code = ""
 
         assert self.c.load(code) == {"status": ["done"]}
 
-    def test_load(self):
+    def test_load(self) -> None:
         code = "piano: o3 c2 d2 e2"
 
         assert self.c.load(code) == {"status": ["done"]}
 
-    def test_new_score(self):
+    def test_new_score(self) -> None:
         assert self.c.new_score() == {"status": ["done"]}
 
-    def test_replay(self):
+    def test_replay(self) -> None:
         assert self.c.replay() == {"status": ["done"]}
 
-    def test_replay_with_start_end(self):
+    def test_replay_with_start_end(self) -> None:
         assert self.c.replay(start="0:00", end="0:01") == {"status": ["done"]}
 
-    def test_score_ast_empty(self):
+    def test_score_ast_empty(self) -> None:
         assert self.c.score_ast() == {"ast": '{"type":"RootNode"}', "status": ["done"]}
 
-    def test_score_ast(self):
+    def test_score_ast(self) -> None:
         code = "piano: o3 c2 d2 e2"
         self.c.load(code)
 
@@ -110,13 +110,13 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_data_empty(self):
+    def test_score_data_empty(self) -> None:
         assert self.c.score_data() == {
             "data": '{"aliases":{},"current-parts":[],"events":[],"global-attributes":{},"markers":{},"parts":{},"variables":{}}',
             "status": ["done"],
         }
 
-    def test_score_data(self):
+    def test_score_data(self) -> None:
         code = "piano: o3 c2 d2 e2"
         self.c.load(code)
 
@@ -127,10 +127,10 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_events_empty(self):
+    def test_score_events_empty(self) -> None:
         assert self.c.score_events() == {"events": "[]", "status": ["done"]}
 
-    def test_score_events(self):
+    def test_score_events(self) -> None:
         code = "piano: o3 c2 d2 e2"
         self.c.load(code)
 
@@ -139,14 +139,14 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_text_empty(self):
+    def test_score_text_empty(self) -> None:
         assert self.c.score_text() == {"text": "", "status": ["done"]}
 
-    def test_score_text(self):
+    def test_score_text(self) -> None:
         code = "piano: o3 c2 d2 e2"
         self.c.load(code)
 
         assert self.c.score_text() == {"text": "piano: o3 c2 d2 e2\n", "status": ["done"]}
 
-    def test_stop(self):
+    def test_stop(self) -> None:
         assert self.c.stop() == {"status": ["done"]}

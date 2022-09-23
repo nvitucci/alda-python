@@ -1,8 +1,9 @@
 from io import BytesIO
+from typing import Any
 
 import pytest
 
-from alda.bencode import Bencode
+from alda import Bencode
 
 VALUES = [
     ("0:", ""),
@@ -26,12 +27,12 @@ VALUES = [
 
 class TestBencodeRead:
     @pytest.mark.parametrize("encoded, decoded", VALUES)
-    def test_values(self, encoded, decoded):
+    def test_values(self, encoded: str, decoded: Any) -> None:
         b = Bencode(BytesIO(encoded.encode()))
         assert b.read() == decoded
 
     @pytest.mark.skip
-    def test_neg_int(self):
+    def test_neg_int(self) -> None:
         value = "i-3e"
 
         with pytest.raises(AssertionError):
@@ -40,7 +41,7 @@ class TestBencodeRead:
 
 class TestBencodeWrite:
     @pytest.mark.parametrize("encoded, decoded", VALUES)
-    def test_values(self, encoded, decoded):
+    def test_values(self, encoded: str, decoded: Any) -> None:
         buffer = BytesIO()
         b = Bencode(buffer)
         b.write(decoded)

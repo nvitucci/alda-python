@@ -31,13 +31,6 @@ class TestBencodeRead:
         b = Bencode(BytesIO(encoded.encode()))
         assert b.read() == decoded
 
-    @pytest.mark.skip
-    def test_neg_int(self) -> None:
-        value = "i-3e"
-
-        with pytest.raises(AssertionError):
-            Bencode(BytesIO(value.encode()))
-
 
 class TestBencodeWrite:
     @pytest.mark.parametrize("encoded, decoded", VALUES)

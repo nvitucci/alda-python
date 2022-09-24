@@ -71,22 +71,21 @@ class Bencode:
     def write(self, obj: BencodeType) -> None:
         encoded = self.encode(obj)
 
-        self.f.write(encoded.encode())
+        self.f.write(encoded)
         self.f.flush()
 
     @classmethod
-    def encode(cls, obj: BencodeType) -> str:
+    def encode(cls, obj: BencodeType) -> bytes:
         if isinstance(obj, str):
-            return f"{len(obj)}:{obj}"
+            return f"{len(obj)}:{obj}".encode()
         elif isinstance(obj, bytes):
-            return f"{len(obj)}:{obj.decode()}"
+            return f"{len(obj)}:".encode() + obj
         elif isinstance(obj, int):
-            return f"i{obj}e"
+            return f"i{obj}e".encode()
         elif isinstance(obj, (list, tuple)):
-            data = "".join(Bencode.encode(el) for el in obj)
-            return f"l{data}e"
+            data = b"".join(Bencode.encode(el) for el in obj)
+            # Cannot use f-strings because the 'b' gets included too
+            return b"l" + data + b"e"
         elif isinstance(obj, dict):
-            data = "".join(Bencode.encode(k) + Bencode.encode(v) for k, v in obj.items())
-            return f"d{data}e"
-        else:
-            raise TypeError("Unrecognized type", type(obj))
+            data = b"".join(Bencode.encode(k) + Bencode.encode(v) for k, v in obj.items())
+            return b"d" + data + b"e"

@@ -16,6 +16,9 @@ class Client:
         """
         self.nrepl = NREPLClient(host, port)
 
+    def __del__(self):
+        self.nrepl.close()
+
     def play(self, code: str) -> Dict[str, Any]:
         """
         Parses the provided input in the context of the current score,

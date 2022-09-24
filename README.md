@@ -10,13 +10,13 @@ Python client for Alda (https://alda.io/).
 
 ## Usage
 
-1. Download and install Alda per the [Install instructions](https://alda.io/install/)
+1. Download and install Alda per the [Install instructions](https://alda.io/install/).
 2. Run the Alda REPL as a server using port 12345:
    ```
    $ alda repl --server --port 12345
    ```
-3. In a different terminal, run an interactive Python session (e.g. IPython)
-4. Install `alda-python`
+3. In a different terminal, run an interactive Python session (e.g. IPython).
+4. Install `alda-python`:
    ```
    !pip install --user alda-python
    ```

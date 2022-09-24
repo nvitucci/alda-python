@@ -16,7 +16,7 @@ class Client:
         """
         self.nrepl = NREPLClient(host, port)
 
-    def __del__(self):
+    def __del__(self) -> None:
         self.nrepl.close()
 
     def play(self, code: str) -> Dict[str, Any]:

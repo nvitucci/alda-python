@@ -5,18 +5,20 @@ import pytest
 
 from alda import Client
 
+from typing import Any, Iterator
+
 CODE = "piano: o3 c2 d2 e2"
 
 
 class TestReplOps:
     @pytest.fixture(autouse=True, scope="class")
-    def client(self):
+    def client(self) -> Iterator[Client]:
         c = Client()
         yield c
         del c
 
     @pytest.fixture(autouse=True)
-    def reset_score(self, client) -> None:
+    def reset_score(self, client: Client) -> Iterator[Any]:
         client.new_score()
 
         # Pause to allow the server to respond
@@ -25,10 +27,10 @@ class TestReplOps:
         # Pause to allow the server to play
         time.sleep(4)
 
-    def test_play(self, client) -> None:
+    def test_play(self, client: Client) -> None:
         assert client.play(CODE) == {"status": ["done"]}
 
-    def test_play_malformed(self, client) -> None:
+    def test_play_malformed(self, client: Client) -> None:
         code = "piano: o3 c2 d2 y"
 
         assert client.play(code) == {
@@ -36,7 +38,7 @@ class TestReplOps:
             "status": ["done", "error"],
         }
 
-    def test_describe(self, client) -> None:
+    def test_describe(self, client: Client) -> None:
         assert client.describe() == {
             "ops": {
                 "clone": {},
@@ -58,14 +60,14 @@ class TestReplOps:
             "versions": {"alda": {"version-string": "2.2.3"}},
         }
 
-    def test_export_empty(self, client) -> None:
+    def test_export_empty(self, client: Client) -> None:
         assert client.export() == {
             "binary-data": b"MThd\x00\x00\x00\x06\x00\x00\x00\x01\x00\x80MTrk\x00\x00"
             b"\x00\x0b\x00\xffQ\x03\x07\xa1 \x00\xff/\x00",
             "status": ["done"],
         }
 
-    def test_export(self, client) -> None:
+    def test_export(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.export() == {
@@ -76,7 +78,7 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_instruments(self, client) -> None:
+    def test_instruments(self, client: Client) -> None:
         res = client.instruments()
 
         assert set(res.keys()) == {"instruments", "status"}
@@ -85,35 +87,35 @@ class TestReplOps:
         assert all(el.startswith("midi-") for el in res["instruments"])
         assert res["instruments"][-1] == "midi-percussion"
 
-    def test_load_empty(self, client) -> None:
+    def test_load_empty(self, client: Client) -> None:
         assert client.load("") == {"status": ["done"]}
 
-    def test_load(self, client) -> None:
+    def test_load(self, client: Client) -> None:
         assert client.load(CODE) == {"status": ["done"]}
 
-    def test_new_score(self, client) -> None:
+    def test_new_score(self, client: Client) -> None:
         assert client.new_score() == {"status": ["done"]}
 
-    def test_replay_empty(self, client) -> None:
+    def test_replay_empty(self, client: Client) -> None:
         assert client.replay() == {"status": ["done"]}
 
-    def test_replay_empty_with_start_end(self, client) -> None:
+    def test_replay_empty_with_start_end(self, client: Client) -> None:
         assert client.replay(start="0:00", end="0:01") == {"status": ["done"]}
 
-    def test_replay(self, client) -> None:
+    def test_replay(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.replay() == {"status": ["done"]}
 
-    def test_replay_with_start_end(self, client) -> None:
+    def test_replay_with_start_end(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.replay(start="0:00", end="0:01") == {"status": ["done"]}
 
-    def test_score_ast_empty(self, client) -> None:
+    def test_score_ast_empty(self, client: Client) -> None:
         assert client.score_ast() == {"ast": '{"type":"RootNode"}', "status": ["done"]}
 
-    def test_score_ast(self, client) -> None:
+    def test_score_ast(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.score_ast() == {
@@ -121,13 +123,13 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_data_empty(self, client) -> None:
+    def test_score_data_empty(self, client: Client) -> None:
         assert client.score_data() == {
             "data": '{"aliases":{},"current-parts":[],"events":[],"global-attributes":{},"markers":{},"parts":{},"variables":{}}',
             "status": ["done"],
         }
 
-    def test_score_data(self, client) -> None:
+    def test_score_data(self, client: Client) -> None:
         client.load(CODE)
 
         res = client.score_data()
@@ -137,10 +139,10 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_events_empty(self, client) -> None:
+    def test_score_events_empty(self, client: Client) -> None:
         assert client.score_events() == {"events": "[]", "status": ["done"]}
 
-    def test_score_events(self, client) -> None:
+    def test_score_events(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.score_events() == {
@@ -148,13 +150,13 @@ class TestReplOps:
             "status": ["done"],
         }
 
-    def test_score_text_empty(self, client) -> None:
+    def test_score_text_empty(self, client: Client) -> None:
         assert client.score_text() == {"text": "", "status": ["done"]}
 
-    def test_score_text(self, client) -> None:
+    def test_score_text(self, client: Client) -> None:
         client.load(CODE)
 
         assert client.score_text() == {"text": "piano: o3 c2 d2 e2\n", "status": ["done"]}
 
-    def test_stop(self, client) -> None:
+    def test_stop(self, client: Client) -> None:
         assert client.stop() == {"status": ["done"]}

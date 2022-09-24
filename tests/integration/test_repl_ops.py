@@ -1,11 +1,10 @@
 import re
 import time
+from typing import Any, Iterator
 
 import pytest
 
 from alda import Client
-
-from typing import Any, Iterator
 
 CODE = "piano: o3 c2 d2 e2"
 

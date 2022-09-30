@@ -1,11 +1,11 @@
-from alda.items import Accident
-from alda.items import Note
-from alda.items import Part
-from alda.items import Pitch
-from alda.items import Score
+from alda.core import Accident
+from alda.core import Note
+from alda.core import Part
+from alda.core import Pitch
+from alda.core import Score
 
 
-class TestScore:
+class TestCore:
     def test_default_score(self):
         score = Score()
         assert score.serialize() == "(tempo! 60)"

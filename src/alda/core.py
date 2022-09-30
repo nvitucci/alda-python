@@ -3,16 +3,16 @@ from typing import List
 
 
 class Pitch(Enum):
-    C: str = "c"
-    D: str = "d"
-    E: str = "e"
-    F: str = "f"
-    G: str = "g"
-    A: str = "a"
-    B: str = "b"
+    A = "a"
+    B = "b"
+    C = "c"
+    D = "d"
+    E = "e"
+    F = "f"
+    G = "g"
 
-    def __str__(self):
-        return self.value
+    def __str__(self) -> str:
+        return str(self.value)
 
 
 class Accident(Enum):
@@ -20,8 +20,8 @@ class Accident(Enum):
     SHARP = "+"
     FLAT = "-"
 
-    def __str__(self):
-        return self.value
+    def __str__(self) -> str:
+        return str(self.value)
 
 
 class Score:

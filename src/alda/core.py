@@ -27,8 +27,16 @@ class Part:
         return "\n".join(ser)
 
 
+class Duration:
+    def __init__(self, length):
+        self.length = length
+
+    def __str__(self):
+        return str(self.length)
+
+
 class Note:
-    def __init__(self, pitch: Pitch, duration: int = 4, octave: int = 3):
+    def __init__(self, pitch: Pitch, duration: Duration = Duration(4), octave: int = 3):
         self.pitch = pitch
         self.duration = duration
         self.octave = octave

@@ -1,5 +1,5 @@
 from alda import pitch
-from alda.core import Note, Part, Score
+from alda.core import Duration, Note, Part, Score
 from alda.pitch import Accidental, Letter, Pitch
 
 
@@ -26,5 +26,5 @@ class TestCore:
         assert note.serialize() == "b-4"
 
     def test_note_duration(self) -> None:
-        note = Note(pitch.E, duration=2)
+        note = Note(pitch.E, duration=Duration(2))
         assert note.serialize() == "e2"

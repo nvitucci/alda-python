@@ -1,4 +1,4 @@
-from alda.core import Accident, Note, Part, Pitch, Score
+from alda.core import Accidental, Note, Part, Pitch, Score
 
 
 class TestCore:
@@ -10,16 +10,17 @@ class TestCore:
         part = Part()
         assert part.serialize() == "piano:"
 
-    def test_note(self) -> None:
-        note = Note(pitch=Pitch.E)
-        assert note.serialize() == "e4"
+    def test_notes(self) -> None:
+        assert Note(pitch=Pitch.E).serialize() == "e4"
+        assert Note(pitch=Pitch.F_SHARP).serialize() == "f+4"
+        assert Note(pitch=Pitch.B_FLAT).serialize() == "b-4"
 
     def test_note_with_octave(self) -> None:
         note = Note(pitch=Pitch.E)
         assert note.serialize(with_octave=True) == "o3 e4"
 
     def test_note_accident(self) -> None:
-        note = Note(pitch=Pitch.E, accident=Accident.FLAT)
+        note = Note(pitch=Pitch.E, accidental=Accidental.FLAT)
         assert note.serialize() == "e-4"
 
     def test_note_duration(self) -> None:

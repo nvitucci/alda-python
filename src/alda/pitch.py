@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import List, Union
 
+from .interval import Interval
+
 
 class Letter(Enum):
     C = "c"
@@ -28,16 +30,47 @@ class Accidental(Enum):
 class Pitch:
     def __init__(self, letter: Letter, accidentals: Union[List[Accidental], Accidental, None] = None):
         self.letter: Letter = letter
+        self.accidentals: List[Accidental]
 
         if isinstance(accidentals, list):
-            self.accidentals: List[Accidental]
-        if isinstance(accidentals, Accidental):
+            self.accidentals = accidentals
+        elif isinstance(accidentals, Accidental):
             self.accidentals = [accidentals]
         else:
             self.accidentals = []
 
+    def get_interval(self, interval: Interval):
+        letters = list(Letter)
+
+        start_pos = letters.index(self.letter)
+        new_pos = letters[(start_pos + interval.positions - 1) % 7]
+        new_accidentals = self.accidentals + Pitch._semitones_to_accidentals(interval.semitones)
+
+        return Pitch(new_pos, Pitch._simplify_accidentals(new_accidentals))
+
+    @staticmethod
+    def _semitones_to_accidentals(semitones: int) -> List[Accidental]:
+        if semitones > 0:
+            return [Accidental.SHARP] * semitones
+        elif semitones < 0:
+            return [Accidental.FLAT] * (-semitones)
+        else:
+            return []
+
+    @staticmethod
+    def _simplify_accidentals(accidentals: List[Accidental]) -> List[Accidental]:
+        sharps = accidentals.count(Accidental.SHARP)
+        flats = accidentals.count(Accidental.FLAT)
+        return Pitch._semitones_to_accidentals(sharps - flats)
+
     def __str__(self) -> str:
         return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
+
+    def __repr__(self) -> str:
+        return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
+
+    def __eq__(self, other):
+        return self.letter == other.letter and self.accidentals == other.accidentals
 
 
 C = Pitch(Letter.C)

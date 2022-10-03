@@ -1,20 +1,20 @@
-from enum import Enum
+from enum import Enum, IntEnum
 from typing import List, Union
 
 from .interval import Interval
 
 
-class Letter(Enum):
-    C = "c"
-    D = "d"
-    E = "e"
-    F = "f"
-    G = "g"
-    A = "a"
-    B = "b"
+class Letter(IntEnum):
+    C = 1
+    D = 2
+    E = 3
+    F = 4
+    G = 5
+    A = 6
+    B = 7
 
     def __str__(self) -> str:
-        return str(self.value)
+        return str(self.name).lower()
 
 
 class Accidental(Enum):
@@ -39,6 +39,15 @@ class Pitch:
         else:
             self.accidentals = []
 
+    def __str__(self) -> str:
+        return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
+
+    def __repr__(self) -> str:
+        return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
+
+    def __eq__(self, other):
+        return self.letter == other.letter and self.accidentals == other.accidentals
+
     def get_interval(self, interval: Interval):
         letters = list(Letter)
 
@@ -62,15 +71,6 @@ class Pitch:
         sharps = accidentals.count(Accidental.SHARP)
         flats = accidentals.count(Accidental.FLAT)
         return Pitch._semitones_to_accidentals(sharps - flats)
-
-    def __str__(self) -> str:
-        return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
-
-    def __repr__(self) -> str:
-        return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
-
-    def __eq__(self, other):
-        return self.letter == other.letter and self.accidentals == other.accidentals
 
 
 C = Pitch(Letter.C)

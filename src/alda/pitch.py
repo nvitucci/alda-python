@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum, IntEnum
 from typing import List, Union
 
@@ -45,10 +47,13 @@ class Pitch:
     def __repr__(self) -> str:
         return str(self.letter) + "".join([str(acc) for acc in self.accidentals])
 
-    def __eq__(self, other):
-        return self.letter == other.letter and self.accidentals == other.accidentals
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Pitch):
+            return self.letter == other.letter and self.accidentals == other.accidentals
 
-    def get_interval(self, interval: Interval):
+        return False
+
+    def get_interval(self, interval: Interval) -> Pitch:
         letters = list(Letter)
 
         start_pos = letters.index(self.letter)

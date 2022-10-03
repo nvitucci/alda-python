@@ -1,5 +1,6 @@
 from alda import interval, pitch
-from alda.pitch import Accidental, Letter, Interval, Pitch
+from alda.interval import Interval
+from alda.pitch import Accidental, Letter, Pitch
 
 
 class TestPitch:
@@ -22,16 +23,16 @@ class TestPitch:
         assert str(pitch.B_FLAT) == "b-"
         assert str(pitch.B) == "b"
 
-    def test_interval(self):
+    def test_interval(self) -> None:
         assert pitch.C.get_interval(Interval(7, -1)) == pitch.B_FLAT
         assert pitch.C.get_interval(Interval(7, -2)) == Pitch(Letter.B, [Accidental.FLAT, Accidental.FLAT])
 
         assert pitch.C_SHARP.get_interval(Interval(7, -1)) == pitch.B
         assert pitch.C_SHARP.get_interval(Interval(7, -2)) == Pitch(Letter.B, Accidental.FLAT)
-        
-    def test_all_c_intervals(self):
+
+    def test_all_c_intervals(self) -> None:
         c = pitch.C
-        
+
         assert str(c.get_interval(interval.P1)) == "c"
         assert str(c.get_interval(interval.m2)) == "d-"
         assert str(c.get_interval(interval.M2)) == "d"
@@ -59,10 +60,10 @@ class TestPitch:
         assert str(c.get_interval(interval.A6)) == "a+"
         assert str(c.get_interval(interval.d8)) == "c-"
         assert str(c.get_interval(interval.A7)) == "b+"
-        
-    def test_all_c_sharp_intervals(self):
+
+    def test_all_c_sharp_intervals(self) -> None:
         c_sharp = pitch.C_SHARP
-        
+
         assert str(c_sharp.get_interval(interval.P1)) == "c+"
         assert str(c_sharp.get_interval(interval.m2)) == "d"
         assert str(c_sharp.get_interval(interval.M2)) == "d+"
@@ -91,7 +92,7 @@ class TestPitch:
         assert str(c_sharp.get_interval(interval.d8)) == "c"
         assert str(c_sharp.get_interval(interval.A7)) == "b++"
 
-    def test_all_d_flat_intervals(self):
+    def test_all_d_flat_intervals(self) -> None:
         d_flat = pitch.D_FLAT
 
         assert str(d_flat.get_interval(interval.P1)) == "d-"

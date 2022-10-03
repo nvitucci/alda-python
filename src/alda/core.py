@@ -1,4 +1,6 @@
-from typing import List, Tuple
+from __future__ import annotations
+
+from typing import List, Tuple, Union
 
 from . import interval
 from .interval import Interval
@@ -33,10 +35,13 @@ class Duration:
     def __init__(self, length: int):
         self.length = length
 
-    def __eq__(self, other):
-        return self.length == other.length
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Duration):
+            return self.length == other.length
 
-    def __str__(self):
+        return False
+
+    def __str__(self) -> str:
         return str(self.length)
 
 
@@ -46,8 +51,11 @@ class Note:
         self.duration = duration
         self.octave = octave
 
-    def __eq__(self, other):
-        return self.pitch == other.pitch and self.duration == other.duration and self.octave == other.octave
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Note):
+            return self.pitch == other.pitch and self.duration == other.duration and self.octave == other.octave
+
+        return False
 
     def serialize(self, with_octave: bool = False) -> str:
         ser = f"{self.pitch}{self.duration}"
@@ -73,14 +81,17 @@ class Chord:
     def __init__(self, notes: List[Note]):
         self.notes = notes
 
-    def __eq__(self, other):
-        return self.notes == other.notes
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, Chord):
+            return self.notes == other.notes
 
-    def __repr__(self):
+        return False
+
+    def __repr__(self) -> str:
         return self.serialize()
 
     @staticmethod
-    def build_chord(base_note: Note, name: Tuple[Interval], inversion_base: Pitch = None):
+    def build_chord(base_note: Note, name: Tuple[Interval, ...], inversion_base: Union[Pitch, None] = None) -> Chord:
         pitches = [base_note.pitch] + [base_note.pitch.get_interval(part) for part in name]
         if inversion_base is not None:
             try:
@@ -101,5 +112,5 @@ class Chord:
 
         return Chord(notes)
 
-    def serialize(self):
+    def serialize(self) -> str:
         return "/".join([note.serialize(with_octave=True) for note in self.notes])

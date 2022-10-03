@@ -1,7 +1,7 @@
 import pytest
 
 from alda import core, pitch
-from alda.core import Duration, Note, Part, Score, Chord
+from alda.core import Chord, Duration, Note, Part, Score
 from alda.pitch import Accidental, Letter, Pitch
 
 
@@ -57,7 +57,7 @@ class TestCore:
         with pytest.raises(ValueError):
             Chord.build_chord(note, core.DOM_7, pitch.A)
 
-    def test_all_c_chords(self):
+    def test_all_c_chords(self) -> None:
         note = Note(pitch.C)
 
         assert Chord.build_chord(note, core.DOM_7, pitch.C) == Chord(

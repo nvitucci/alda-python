@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple
 
 from . import interval
 from .interval import Interval
@@ -116,7 +116,7 @@ class Chord:
         return self.serialize()
 
     @staticmethod
-    def build_chord(base_note: Note, name: Tuple[Interval, ...], inversion_base: Union[Pitch, None] = None) -> Chord:
+    def build_chord(base_note: Note, name: Tuple[Interval, ...], inversion_base: Optional[Pitch] = None) -> Chord:
         pitches = [base_note.pitch] + [base_note.pitch.get_interval(part) for part in name]
         if inversion_base is not None:
             try:

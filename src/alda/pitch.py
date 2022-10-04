@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum, IntEnum
-from typing import List, Union
+from typing import List, Optional, Union
 
 from .interval import Interval
 
@@ -30,7 +30,7 @@ class Accidental(Enum):
 
 
 class Pitch:
-    def __init__(self, letter: Letter, accidentals: Union[List[Accidental], Accidental, None] = None):
+    def __init__(self, letter: Letter, accidentals: Optional[Union[List[Accidental], Accidental]] = None):
         self.letter: Letter = letter
         self.accidentals: List[Accidental]
 

@@ -16,6 +16,8 @@ M6 = Interval(6, 0)
 m7 = Interval(7, -1)
 M7 = Interval(7, 0)
 P8 = Interval(8, 0)
+m9 = Interval(9, -1)
+M9 = Interval(9, 0)
 
 d2 = Interval(2, -2)
 A1 = Interval(1, 1)

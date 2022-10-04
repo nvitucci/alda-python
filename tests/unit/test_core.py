@@ -41,15 +41,22 @@ class TestCore:
     def test_chord_inversion(self) -> None:
         note = Note(pitch.C)
 
+        assert Chord.build_chord(note, core.DOM_7) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT)]
+        )
+
         assert Chord.build_chord(note, core.DOM_7, pitch.C) == Chord(
             [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT)]
         )
+
         assert Chord.build_chord(note, core.DOM_7, pitch.E) == Chord(
             [Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT), Note(pitch.C, octave=4)]
         )
+
         assert Chord.build_chord(note, core.DOM_7, pitch.G) == Chord(
             [Note(pitch.G), Note(pitch.B_FLAT), Note(pitch.C, octave=4), Note(pitch.E, octave=4)]
         )
+
         assert Chord.build_chord(note, core.DOM_7, pitch.B_FLAT) == Chord(
             [Note(pitch.B_FLAT), Note(pitch.C, octave=4), Note(pitch.E, octave=4), Note(pitch.G, octave=4)]
         )
@@ -60,38 +67,126 @@ class TestCore:
     def test_all_c_chords(self) -> None:
         note = Note(pitch.C)
 
-        assert Chord.build_chord(note, core.DOM_7, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.MAJ) == Chord([Note(pitch.C), Note(pitch.E), Note(pitch.G)])
+
+        assert Chord.build_chord(note, core.MIN) == Chord([Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G)])
+
+        assert Chord.build_chord(note, core.AUG) == Chord([Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP)])
+
+        assert Chord.build_chord(note, core.DIM) == Chord([Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT)])
+
+        assert Chord.build_chord(note, core.SUS_2) == Chord([Note(pitch.C), Note(pitch.D), Note(pitch.G)])
+
+        assert Chord.build_chord(note, core.SUS_4) == Chord([Note(pitch.C), Note(pitch.F), Note(pitch.G)])
+
+        assert Chord.build_chord(note, core.ADD_6) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.A)]
+        )
+
+        assert Chord.build_chord(note, core.MIN_ADD_6) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.A)]
+        )
+
+        assert Chord.build_chord(note, core.ADD_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.MIN_ADD_9) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.DOM_7) == Chord(
             [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT)]
         )
 
-        assert Chord.build_chord(note, core.MAJ_7, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.MAJ_7) == Chord(
             [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B)]
         )
 
-        assert Chord.build_chord(note, core.MIN_MAJ_7, pitch.C) == Chord(
-            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.B)]
-        )
-
-        assert Chord.build_chord(note, core.MIN_7, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.MIN_7) == Chord(
             [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.B_FLAT)]
         )
 
-        assert Chord.build_chord(note, core.AUG_MAJ_7, pitch.C) == Chord(
-            [Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP), Note(pitch.B)]
+        assert Chord.build_chord(note, core.MIN_MAJ_7) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.B)]
         )
 
-        assert Chord.build_chord(note, core.AUG_7, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.AUG_7) == Chord(
             [Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP), Note(pitch.B_FLAT)]
         )
 
-        assert Chord.build_chord(note, core.MIN_7_DIM_5, pitch.C) == Chord(
-            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(pitch.B_FLAT)]
+        assert Chord.build_chord(note, core.AUG_MAJ_7) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP), Note(pitch.B)]
         )
 
-        assert Chord.build_chord(note, core.DIM_7, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.DIM_7) == Chord(
             [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(Pitch(Letter.B, [Accidental.FLAT] * 2))]
         )
 
-        assert Chord.build_chord(note, core.DOM_7_DIM_5, pitch.C) == Chord(
+        assert Chord.build_chord(note, core.DOM_7_DIM_5) == Chord(
             [Note(pitch.C), Note(pitch.E), Note(pitch.G_FLAT), Note(pitch.B_FLAT)]
+        )
+
+        assert Chord.build_chord(note, core.MIN_7_DIM_5) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(pitch.B_FLAT)]
+        )
+
+        assert Chord.build_chord(note, core.HALF_DIM_7) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(pitch.B_FLAT)]
+        )
+
+        assert Chord.build_chord(note, core.DOM_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.DOM_MIN_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B_FLAT), Note(pitch.D_FLAT, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.MAJ_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G), Note(pitch.B), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.MIN_9) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.B_FLAT), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.MIN_MAJ_9) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G), Note(pitch.B), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.AUG_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP), Note(pitch.B_FLAT), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.AUG_MAJ_9) == Chord(
+            [Note(pitch.C), Note(pitch.E), Note(pitch.G_SHARP), Note(pitch.B), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.DIM_9) == Chord(
+            [
+                Note(pitch.C),
+                Note(pitch.E_FLAT),
+                Note(pitch.G_FLAT),
+                Note(Pitch(Letter.B, [Accidental.FLAT] * 2)),
+                Note(pitch.D, octave=4),
+            ]
+        )
+
+        assert Chord.build_chord(note, core.DIM_MIN_9) == Chord(
+            [
+                Note(pitch.C),
+                Note(pitch.E_FLAT),
+                Note(pitch.G_FLAT),
+                Note(Pitch(Letter.B, [Accidental.FLAT] * 2)),
+                Note(pitch.D_FLAT, octave=4),
+            ]
+        )
+
+        assert Chord.build_chord(note, core.HALF_DIM_9) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(pitch.B_FLAT), Note(pitch.D, octave=4)]
+        )
+
+        assert Chord.build_chord(note, core.HALF_DIM_MIN_9) == Chord(
+            [Note(pitch.C), Note(pitch.E_FLAT), Note(pitch.G_FLAT), Note(pitch.B_FLAT), Note(pitch.D_FLAT, octave=4)]
         )

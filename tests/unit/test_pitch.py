@@ -45,6 +45,8 @@ class TestPitch:
         assert str(c.get_interval(interval.m7)) == "b-"
         assert str(c.get_interval(interval.M7)) == "b"
         assert str(c.get_interval(interval.P8)) == "c"
+        assert str(c.get_interval(interval.m9)) == "d-"
+        assert str(c.get_interval(interval.M9)) == "d"
 
         assert str(c.get_interval(interval.d2)) == "d--"
         assert str(c.get_interval(interval.A1)) == "c+"
@@ -76,6 +78,8 @@ class TestPitch:
         assert str(c_sharp.get_interval(interval.m7)) == "b"
         assert str(c_sharp.get_interval(interval.M7)) == "b+"
         assert str(c_sharp.get_interval(interval.P8)) == "c+"
+        assert str(c_sharp.get_interval(interval.m9)) == "d"
+        assert str(c_sharp.get_interval(interval.M9)) == "d+"
 
         assert str(c_sharp.get_interval(interval.d2)) == "d-"
         assert str(c_sharp.get_interval(interval.A1)) == "c++"
@@ -107,6 +111,8 @@ class TestPitch:
         assert str(d_flat.get_interval(interval.m7)) == "c--"
         assert str(d_flat.get_interval(interval.M7)) == "c-"
         assert str(d_flat.get_interval(interval.P8)) == "d-"
+        assert str(d_flat.get_interval(interval.m9)) == "e--"
+        assert str(d_flat.get_interval(interval.M9)) == "e-"
 
         assert str(d_flat.get_interval(interval.d2)) == "e---"
         assert str(d_flat.get_interval(interval.A1)) == "d"

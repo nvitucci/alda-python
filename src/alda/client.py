@@ -43,8 +43,9 @@ class Client:
 
         :return:
             - ops - the operations available on the Alda REPL server
+            - status
             - problems - if there were any
-            - versions - Alda versions
+            - versions - Alda version information
         :rtype: dict
         """
         self.nrepl.write({"op": "describe"})

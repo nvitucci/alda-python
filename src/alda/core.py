@@ -115,8 +115,8 @@ class Chord:
     def __repr__(self) -> str:
         return self.serialize()
 
-    @staticmethod
-    def build_chord(base_note: Note, name: Tuple[Interval, ...], inversion_base: Optional[Pitch] = None) -> Chord:
+    @classmethod
+    def from_name(cls, base_note: Note, name: Tuple[Interval, ...], inversion_base: Optional[Pitch] = None) -> Chord:
         pitches = [base_note.pitch] + [base_note.pitch.get_interval(part) for part in name]
         if inversion_base is not None:
             try:
@@ -135,7 +135,7 @@ class Chord:
 
             notes.append(Note(pitches[pitch], base_note.duration, octave))
 
-        return Chord(notes)
+        return cls(notes)
 
     def serialize(self) -> str:
         return "/".join([note.serialize(with_octave=True) for note in self.notes])
